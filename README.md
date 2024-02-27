@@ -5,7 +5,8 @@ Basé sur les travaux de Skamo, Ssieb et Mtkodat.
 
 Testé sur ESP32 Wrom
 
-connexion coté ESMART3
+connexion coté ESMART3:
+
 7,8 => vcc
 A ==>A
 B => B
