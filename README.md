@@ -1,11 +1,19 @@
 # Esphome_Esmart3
 Récupération des informations du ESMART3 Via Esphome
+
 Recueil d'informations récupérés sur le net afin de pouvoir connecter esphome et le Esmart3
+
 Basé sur les travaux de Skamo, Ssieb et Mtkodat.
+
+L'alimentation du esmart fournis du 5v suffisant pour alimenter ESP.
 
 Testé sur ESP32 Wrom
 
-connexion coté ESMART3:
+Connecxion coté ESP
+
+RX TX +5V GND
+
+Connexion coté ESMART3:
 
 7,8 => vcc
 A ==>A
