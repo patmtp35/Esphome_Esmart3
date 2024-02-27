@@ -10,7 +10,7 @@ connexion coté ESMART3:
 7,8 => vcc
 A ==>A
 B => B
-5,6 => DND
+5,6 => GND
 
 
 est un module RS485 
