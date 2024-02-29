@@ -7,7 +7,7 @@ Basé sur les travaux de Skamo, Ssieb et Mtkodat.
 
 L'alimentation du esmart fournis du 5v suffisant pour alimenter ESP.
 
-Testé sur ESP32 Wrom
+Testé sur ESP32 Wroom
 
 Connecxion coté ESP
 
