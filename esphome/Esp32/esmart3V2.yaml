@@ -45,9 +45,9 @@ esp32:
 
 <<: !include .common.yaml
 
-##################################
-##  composants internes locaux ###
-##################################
+############################
+##  composants externes  ###
+############################
 external_components:
   - source:
       type: git
