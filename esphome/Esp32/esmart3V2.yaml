@@ -1,64 +1,61 @@
+##########################################################################
+######              lecture des valeurs du esmart3 via esphome 
+#################################################################################
+
 substitutions:
+  #############################
+  # comomon substitution #####
+  ############################  
   name: esmart3v2-esp
-  friendly_name: esmart3
-  device_description: "Read Values of a Esmart3 via RS485"
+  esphome_name: "esmart3v2-esp"
+  friendly_name: "esmart3"
+  devicename: "esmart3"
+  device_description: "Read Values from Esmart3 via RS485"
   time_timezone: "Europe/Paris"
+  projectname: "Pat.Esmart3 Virtual Meter"
+  appversion: 2.0.0
+  log_level: "INFO"
+  baud_rate: "0"
+  api_encryption_key: !secret esmart3key
+  ota_pswd: !secret esmart3ota
+  ap_pwd: !secret esmart3ap
+  adress_ip: !secret ip_esmart3
+  gateway_ip: !secret ip_gateway
+  dns_ip: !secret ip_dns
+  
+  ###########################
+  ## LOCAL substitution #####
+  ###########################
   tx_pin: GPIO1
   rx_pin: GPIO3
+   
   
+###############################
+### definition de la carte ESP
+###############################
 
 esp32:
   board: esp32dev
   framework:
     type: arduino
+###################################
+### inclusion de la partie commune 
+###################################
 
-esphome:
-  name: ${name}
-  comment: ${device_description}
-  project:
-    name: "pat.esphome-esmart3-virtual-meter"
-    version: 2.0.0
+<<: !include .common.yaml
 
+##################################
+##  composants internes locaux ###
+##################################
 external_components:
   - source:
       type: git
       url: https://github.com/ssieb/esphome_components
     components: [ esmart3 ]
 
-time:
-  - platform: homeassistant
-    timezone:  ${time_timezone} 
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Esmart3-Esp Fallback Hotspot"
-    password: !secret ap_pwd
-
-ota:
-  password: !secret ota_pwd
-
-logger:
-  baud_rate: 0
-  level: INFO
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: !secrect esmart3key
-
-captive_portal:
-
-## ---------------------------------------------------
-## COMPONENT WEBSERVER (local hosted)
-## ---------------------------------------------------
-web_server:
-  port: 80
-  version: 2
-  
+##################################################################
+######################  programme principal ######################  
+##################################################################
 
 #########
 # UART ##
@@ -73,14 +70,6 @@ uart:
 ###########
 # SENSORS #
 ###########
-#Etat de la connection
-binary_sensor:
-  - platform: status
-    name: "${friendly_name} Status Esp32"
-
-switch:    
-  - platform: restart
-    name: "${friendly_name} Restart Esp32"
 
 text_sensor:
   # IP address #
@@ -179,4 +168,4 @@ sensor:
       unit_of_measurement: "%"
       state_class: total_increasing
       device_class: "battery"
-      accuracy_decimals: 1       
+      accuracy_decimals: 1   
