@@ -2,14 +2,15 @@
 ######              lecture des valeurs du esmart3 via esphome 
 #################################################################################
 
+
 substitutions:
   #############################
   # comomon substitution #####
   ############################  
   name: esmart3v2-esp
   esphome_name: "esmart3v2-esp"
-  friendly_name: "esmart3"
-  devicename: "esmart3"
+  friendly_name: "Esmart3v2-Esp"
+  sensor_prefix: "esmart3"
   device_description: "Read Values from Esmart3 via RS485"
   time_timezone: "Europe/Paris"
   projectname: "Pat.Esmart3 Virtual Meter"
@@ -75,96 +76,96 @@ text_sensor:
   # IP address #
   - platform: wifi_info
     ip_address:
-      name: "${friendly_name} IP address"
+      name: "${sensor_prefix} IP address"
       icon: "mdi:network-outline"
     ssid:
-      name: "${friendly_name} Connected SSID"
+      name: "${sensor_prefix} Connected SSID"
     bssid:
-      name: "${friendly_name} Connected BSSID"
+      name: "${sensor_prefix} Connected BSSID"
 
   - platform: version
     id: text_sensor_version
-    name: "${friendly_name} ESPHome Version"
+    name: "${sensor_prefix} ESPHome Version"
 
 sensor:
   - platform: wifi_signal
-    name: "${friendly_name} WiFi Signal Sensor"
+    name: "${sensor_prefix} WiFi Signal Sensor"
     update_interval: 60s
 
   - platform: uptime
-    name: "${friendly_name} Uptime Sensor"
+    name: "${sensor_prefix} Uptime Sensor"
     update_interval: 60s
 
   - platform: esmart3
     charge_mode:
       id: charge_mode
-      name: "${friendly_name} charge_mode"
+      name: "${sensor_prefix} charge_mode"
     input_voltage:
       id: input_voltage
-      name: "${friendly_name} input_voltage"
+      name: "${sensor_prefix} input_voltage"
       unit_of_measurement: "V"
       state_class: total_increasing
       device_class: "voltage"
       accuracy_decimals: 1      
     battery_voltage:
       id: battery_voltage
-      name: "${friendly_name} battery_voltage"
+      name: "${sensor_prefix} battery_voltage"
       unit_of_measurement: "V"
       state_class: total_increasing
       device_class: "voltage"
       accuracy_decimals: 1        
     charging_current:
       id: charging_current
-      name: "${friendly_name} charging_current"
+      name: "${sensor_prefix} charging_current"
       unit_of_measurement: "A"
       state_class: total_increasing
       device_class: "current"
       accuracy_decimals: 1
     load_voltage:
       id: load_voltage
-      name: "${friendly_name} load_voltage"
+      name: "${sensor_prefix} load_voltage"
       unit_of_measurement: "V"
       state_class: total_increasing
       device_class: "voltage"
       accuracy_decimals: 1        
     load_current:
       id: load_current
-      name: "${friendly_name} load_current"
+      name: "${sensor_prefix} load_current"
       unit_of_measurement: "A"
       state_class: total_increasing
       device_class: "current"
       accuracy_decimals: 1      
     charging_power:
       id: charging_power
-      name: "${friendly_name} charging_power"
+      name: "${sensor_prefix} charging_power"
       unit_of_measurement: "W"
       state_class: total_increasing
       device_class: "power"
       accuracy_decimals: 1      
     load_power:
       id: load_power
-      name: "${friendly_name} load_power"
+      name: "${sensor_prefix} load_power"
       unit_of_measurement: "W"
       state_class: total_increasing
       device_class: "power"
       accuracy_decimals: 1         
     battery_temp:
       id: battery_temp
-      name: "${friendly_name} battery_temp"
+      name: "${sensor_prefix} battery_temp"
       unit_of_measurement: "°C"
       state_class: total_increasing
       device_class: "temperature"
       accuracy_decimals: 1         
     internal_temp:
       id: internal_temp
-      name: "${friendly_name} internal_temp"
+      name: "${sensor_prefix} internal_temp"
       unit_of_measurement: "°C"
       state_class: total_increasing
       device_class: "temperature"
       accuracy_decimals: 1 
     battery_level:
       id: battery_level
-      name: "${friendly_name} battery_level"
+      name: "${sensor_prefix} battery_level"
       unit_of_measurement: "%"
       state_class: total_increasing
       device_class: "battery"

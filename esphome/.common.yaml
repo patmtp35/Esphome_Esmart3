@@ -131,10 +131,10 @@ time:
 # Status Binary Sensor: https://esphome.io/components/binary_sensor/status.html
 binary_sensor:
   - platform: status
-    name: "${devicename} - Status Esp"
+    name: "${sensor_prefix} - Status Esp"
 
 # Restart Button: https://esphome.io/components/button/restart.html
 switch:
   - platform: restart
-    name: "${devicename} - Restart Esp"
+    name: "${sensor_prefix} - Restart Esp"
 
