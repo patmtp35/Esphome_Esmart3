@@ -24,11 +24,6 @@ substitutions:
   gateway_ip: !secret ip_gateway
   dns_ip: !secret ip_dns
   
-  ###########################
-  ## LOCAL substitution #####
-  ###########################
-  tx_pin: GPIO1
-  rx_pin: GPIO3
    
   
 ###############################
