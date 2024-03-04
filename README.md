@@ -8,7 +8,7 @@ Basé sur les travaux de Skamgo, Ssieb et Mtkodat.
 
 L'alimentation du esmart fournis du 5v suffisant pour alimenter ESP. 
 
-Attention toutefois sur les paires utiliser la couleur pour faire les ponts VERT ou Marron : VCC et GND esphome <=> RS485
+Attention toutefois sur les paires utilisés, la couleur pour faire les ponts VERT ou Marron : VCC et GND esphome <=> RS485
 
 Testé sur ESP32 Wroom
 
