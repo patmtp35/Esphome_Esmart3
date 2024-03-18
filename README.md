@@ -24,6 +24,6 @@ B => B
 5,6 => GND
 
 
-est un module RS485 
+et un module RS485 
 ![image](https://github.com/patmtp35/Esphome_Esmart3/assets/6410695/02eda12e-bea1-469f-8acd-4a2830d47e83)
 
