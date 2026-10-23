@@ -10,14 +10,12 @@ en corrigeant ses défauts et en ajoutant ce que le protocole permet.
 > |---|---|
 > | Couche protocole (trames, checksums, décodage, lecteur) | **Testée** : 69 vérifications `g++` (ASan/UBSan) dont les exemples du PDF constructeur |
 > | Logique du composant (file de requêtes, timeouts, NACK, interrupteur) | **Simulée** : 93 vérifications contre de fausses en-têtes ESPHome (UART et horloge scriptées) |
-> | Conformité à l'API ESPHome réelle (C++ et Python) | **Jamais compilé ni validé avec ESPHome** |
-> | Fichiers Python (schémas YAML) | Syntaxe vérifiée, **jamais validés par `esphome config`** |
-> | Matériel réel | **Jamais testé** |
->
-> Le réseau de l'environnement où ce dépôt a été écrit bloquait PyPI, donc ESPHome n'a pas pu y
-> être installé. Première chose à faire chez vous : `esphome config examples/esmart3.yaml`, puis
-> `esphome compile`. Si une erreur apparaît, elle viendra de l'API ESPHome (versions récentes) et
-> sera locale à `components/esmart3/*.py` ou `esmart3.h/.cpp`.
+> | Conformité à l'API ESPHome réelle (Python + C++) | **Validée et compilée** sous ESPHome 2026.10.0 (ESP-IDF 5.5.6, ESP32) : compilation réussie, firmware généré |
+| Matériel réel | **Jamais testé** (aucune trame échangée avec un vrai régulateur) |
+
+Le composant a été écrit sans pouvoir installer ESPHome (PyPI bloqué dans l'environnement de rédaction) ; la
+première compilation réelle a été faite sur l'add-on ESPHome de l'utilisateur. Reste à faire : brancher, lire les
+journaux (`logger: level: VERY_VERBOSE`) et vérifier les points de la section « Points à vérifier ».
 
 ## Câblage
 

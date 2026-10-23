@@ -37,7 +37,6 @@ void ESmart3Component::dump_config() {
   ESP_LOGCONFIG(TAG, "  Load state entities: %s", this->has_load_entities_() ? "yes" : "no");
   ESP_LOGCONFIG(TAG, "  Load switch: %s", this->load_switch_ != nullptr ? "yes (writes wLoadModuleSelect1)" : "no");
   LOG_UPDATE_INTERVAL(this);
-  this->check_uart_settings(9600);
 }
 
 bool ESmart3Component::has_energy_entities_() const {
