@@ -1,0 +1,117 @@
+# Exemple complet — eSmart3 40A sur ESP32, via module RS485 à direction automatique.
+# Copier ce dossier d'exemple à côté de `components/` ou adapter le chemin ci-dessous.
+
+esphome:
+  name: esmart3
+  friendly_name: eSmart3
+
+esp32:
+  board: esp32dev
+
+logger:
+  # level: VERY_VERBOSE   # <- à activer pour voir les trames TX/RX en cas de problème
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+    components: [esmart3]
+
+# Le port RJ45 du régulateur parle 9600 bauds, 8N1. Le composant refuse toute autre valeur.
+uart:
+  id: uart_esmart3
+  tx_pin: GPIO17
+  rx_pin: GPIO16
+  baud_rate: 9600
+
+esmart3:
+  id: esmart3_hub
+  uart_id: uart_esmart3
+  update_interval: 10s      # mesures temps réel
+  # slow_update_every: 6    # énergies + état sortie charge : 1 lecture toutes les 6 interrogations (soit 60 s)
+  # address: 0              # 0 = diffusion (un seul régulateur sur le bus)
+  # u32_word_order: high_first   # passer à low_first si les kWh sont absurdes (voir README)
+
+sensor:
+  - platform: esmart3
+    esmart3_id: esmart3_hub
+    pv_voltage:
+      name: "eSmart3 Tension PV"
+    battery_voltage:
+      name: "eSmart3 Tension batterie"
+      # Le régulateur de skagmo affichait ~10 % trop bas : à vérifier au multimètre sur le vôtre.
+      # filters:
+      #   - calibrate_linear:
+      #       - 12.00 -> 12.00   # (lecture eSmart3 -> valeur mesurée au multimètre)
+      #       - 14.00 -> 14.00
+    charging_current:
+      name: "eSmart3 Courant de charge"
+    charging_power:
+      name: "eSmart3 Puissance de charge"
+    load_voltage:
+      name: "eSmart3 Tension sortie charge"
+    load_current:
+      name: "eSmart3 Courant sortie charge"
+    load_power:
+      name: "eSmart3 Puissance sortie charge"
+    battery_temperature:
+      name: "eSmart3 Température batterie"
+    internal_temperature:
+      name: "eSmart3 Température interne"
+    battery_level:
+      name: "eSmart3 SOC"      # calculé par le régulateur à partir de la tension seule
+    charge_mode:
+      name: "eSmart3 Mode de charge (code)"
+    fault_code:
+      name: "eSmart3 Code défaut"
+    # Énergies (kWh) : compatibles tableau de bord Énergie de Home Assistant.
+    energy_today:
+      name: "eSmart3 Production du jour"
+    energy_month:
+      name: "eSmart3 Production du mois"
+    energy_total:
+      name: "eSmart3 Production totale"
+    load_energy_today:
+      name: "eSmart3 Conso sortie charge du jour"
+    load_energy_month:
+      name: "eSmart3 Conso sortie charge du mois"
+    load_energy_total:
+      name: "eSmart3 Conso sortie charge totale"
+
+text_sensor:
+  - platform: esmart3
+    esmart3_id: esmart3_hub
+    charge_mode:
+      name: "eSmart3 Mode de charge"
+    faults:
+      name: "eSmart3 Défauts"
+    load_mode:
+      name: "eSmart3 Mode sortie charge"
+
+binary_sensor:
+  - platform: esmart3
+    esmart3_id: esmart3_hub
+    load_on:
+      name: "eSmart3 Sortie charge active"
+    fault:
+      name: "eSmart3 Défaut"
+
+# ATTENTION — optionnel et NON testé sur matériel : cet interrupteur ÉCRIT dans la configuration
+# du régulateur (mode de la sortie charge). Ne l'activez qu'après avoir lu le README.
+# switch:
+#   - platform: esmart3
+#     esmart3_id: esmart3_hub
+#     load:
+#       name: "eSmart3 Sortie charge"

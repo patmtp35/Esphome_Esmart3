@@ -1,0 +1,6 @@
+tests/test_protocol
+tests/test_hub
+__pycache__/
+*.pyc
+.esphome/
+secrets.yaml
