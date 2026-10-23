@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "esphome/core/component.h"
+#include "esphome/core/gpio.h"
 #include "esphome/core/helpers.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
@@ -51,6 +52,8 @@ class ESmart3Component : public PollingComponent, public uart::UARTDevice {
   void set_address(uint8_t address) { this->address_ = address; }
   void set_slow_every(uint8_t n) { this->slow_every_ = n == 0 ? 1 : n; }
   void set_u32_high_word_first(bool v) { this->u32_high_word_first_ = v; }
+  // Broche DE/RE d'un module RS485 sans direction automatique : HIGH pendant l'émission, LOW sinon.
+  void set_flow_control_pin(GPIOPin *pin) { this->flow_control_pin_ = pin; }
   void set_load_switch(ESmart3LoadSwitch *s) { this->load_switch_ = s; }
 
   // Écrit wLoadModuleSelect1 = 5117 (toujours ON) ou 5118 (toujours OFF).
@@ -111,6 +114,7 @@ class ESmart3Component : public PollingComponent, public uart::UARTDevice {
 
   static void publish_text_(text_sensor::TextSensor *s, const std::string &value);
 
+  GPIOPin *flow_control_pin_{nullptr};
   uint8_t address_{0};
   uint8_t slow_every_{6};
   uint8_t slow_counter_{0};

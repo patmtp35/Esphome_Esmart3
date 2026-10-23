@@ -19,10 +19,17 @@ static const uint8_t TIMEOUTS_BEFORE_UNAVAILABLE = 6;
 static const uint8_t REFUSALS_BEFORE_DISABLE = 3;
 static const uint8_t FALLBACK_STATE_READ_BYTES = 0x18;  // lecture de ssieb : jusqu'au SoC, sans wFault
 
-void ESmart3Component::setup() { this->reader_.reset(); }
+void ESmart3Component::setup() {
+  this->reader_.reset();
+  if (this->flow_control_pin_ != nullptr) {
+    this->flow_control_pin_->setup();
+    this->flow_control_pin_->digital_write(false);  // repos = réception
+  }
+}
 
 void ESmart3Component::dump_config() {
   ESP_LOGCONFIG(TAG, "eSmart3 MPPT:");
+  LOG_PIN("  Flow control pin: ", this->flow_control_pin_);
   ESP_LOGCONFIG(TAG, "  Device address: %u", this->address_);
   ESP_LOGCONFIG(TAG, "  Energy/load data every %u update(s)", this->slow_every_);
   ESP_LOGCONFIG(TAG, "  32-bit values: %s word first", this->u32_high_word_first_ ? "high" : "low");
@@ -105,8 +112,14 @@ void ESmart3Component::set_load(bool on) {
 void ESmart3Component::send_next_(uint32_t now) {
   Request r = std::move(this->queue_.front());
   this->queue_.pop_front();
+  // Module sans direction automatique : on passe en émission, on attend la fin de l'envoi (flush bloque
+  // jusqu'à ce que le dernier octet soit sorti du UART), puis on repasse tout de suite en réception.
+  if (this->flow_control_pin_ != nullptr)
+    this->flow_control_pin_->digital_write(true);
   this->write_array(r.frame.data(), r.frame.size());
   this->flush();
+  if (this->flow_control_pin_ != nullptr)
+    this->flow_control_pin_->digital_write(false);
   ESP_LOGV(TAG, "TX item %u: %s", r.item, format_hex_pretty(r.frame).c_str());
   this->pending_req_ = std::move(r);
   this->pending_ = true;

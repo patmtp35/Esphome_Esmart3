@@ -1,4 +1,4 @@
-# Exemple complet — eSmart3 40A sur ESP32, via module RS485 à direction automatique.
+# Exemple complet — eSmart3 40A sur ESP32, via un module RS485 (direction automatique ou broche DE/RE).
 # Copier ce dossier d'exemple à côté de `components/` ou adapter le chemin ci-dessous.
 
 esphome:
@@ -41,6 +41,7 @@ esmart3:
   uart_id: uart_esmart3
   update_interval: 10s      # mesures temps réel
   # slow_update_every: 6    # énergies + état sortie charge : 1 lecture toutes les 6 interrogations (soit 60 s)
+  # flow_control_pin: GPIO4  # DE/RE (RSE) du module RS485 s'il n'a PAS de direction automatique
   # address: 0              # 0 = diffusion (un seul régulateur sur le bus)
   # u32_word_order: high_first   # passer à low_first si les kWh sont absurdes (voir README)
 

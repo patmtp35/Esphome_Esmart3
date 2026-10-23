@@ -4,23 +4,17 @@ Composant ESPHome pour le régulateur solaire **eSmart3 MPPT** (Supower / Yueqin
 lu par son port RJ45 RS485. Il remplace le composant `esmart3` de ssieb, dont il reprend l'idée
 en corrigeant ses défauts et en ajoutant ce que le protocole permet.
 
-Basé sur les travaux de skagmo, ssieb et mtkodat, recoupés avec E-t0m et joba-1 (voir *Sources*).
-Licence : Apache 2.0 (`LICENSE`).
-
-> **Ancienne version (juin 2024)** : conservée telle quelle dans [`archive/`](archive/) ; l'état d'origine reste aussi
-> consultable dans l'historique (commit `d9ac21b`, 21 juin 2024). Elle utilisait le composant de ssieb avec des fichiers YAML (ESP32 testé, D1 Mini non fonctionnel).
-
 > **Statut de vérification** (à lire avant de flasher)
 >
 > | Élément | État |
 > |---|---|
 > | Couche protocole (trames, checksums, décodage, lecteur) | **Testée** : 69 vérifications `g++` (ASan/UBSan) dont les exemples du PDF constructeur |
-> | Logique du composant (file de requêtes, timeouts, NACK, interrupteur) | **Simulée** : 85 vérifications contre de fausses en-têtes ESPHome (UART et horloge scriptées) |
+> | Logique du composant (file de requêtes, timeouts, NACK, interrupteur) | **Simulée** : 93 vérifications contre de fausses en-têtes ESPHome (UART et horloge scriptées) |
 > | Conformité à l'API ESPHome réelle (C++ et Python) | **Jamais compilé ni validé avec ESPHome** |
 > | Fichiers Python (schémas YAML) | Syntaxe vérifiée, **jamais validés par `esphome config`** |
 > | Matériel réel | **Jamais testé** |
 >
-> Le réseau de l'environnement où cette version a été écrite bloquait PyPI, donc ESPHome n'a pas pu y
+> Le réseau de l'environnement où ce dépôt a été écrit bloquait PyPI, donc ESPHome n'a pas pu y
 > être installé. Première chose à faire chez vous : `esphome config examples/esmart3.yaml`, puis
 > `esphome compile`. Si une erreur apparaît, elle viendra de l'API ESPHome (versions récentes) et
 > sera locale à `components/esmart3/*.py` ou `esmart3.h/.cpp`.
@@ -34,26 +28,23 @@ Port RJ45 du régulateur (source : revue skagmo.com, confirmée par la lib E-t0m
 | 1 | RS485 A (+) |
 | 2 | RS485 B (−) |
 | 5, 6 | GND |
-| 7, 8 | +5 V en sortie (voir l'alimentation ci-dessous) |
+| 7, 8 | +5 V en sortie (courant disponible inconnu — ne pas y brancher l'ESP32 sans le vérifier) |
 
-Vers l'ESP32 : un module **RS485 ↔ TTL à direction automatique** (« auto flow control »), `TX → GPIO17`,
-`RX → GPIO16` (modifiables).
+Vers l'ESP32 : un module RS485 ↔ TTL, `TX → GPIO17` (DI), `RX → GPIO16` (RO), modifiables. À savoir :
 
-**Montage déjà éprouvé** (ancienne version, ESP32 WROOM + petit module RS485 à 4 broches RX/TX/VCC/GND, photo dans
-`archive/img/`) : broches RJ45 7 et 8 vers le VCC du module, A vers A, B vers B, broches 5 et 6 vers GND, puis
-RX/TX/GND du module vers l'ESP32. Le 5 V du port RJ45 y alimentait aussi l'ESP32. Attention au choix des paires
-du câble réseau pour les ponts VCC/GND.
-
-**Alimentation : deux retours d'expérience contradictoires.** L'ancienne version fonctionnait sur le 5 V du régulateur ;
-la lib Joba affirme au contraire qu'il est trop faible pour un ESP32 avec le Wi-Fi. Si l'ESP32 redémarre sans raison
-(brown-out), alimentez-le à part et ne reliez que le module RS485 au port RJ45.
-
-* Le composant **ne pilote aucune broche DE/RE** : un MAX485 nu ne fonctionnera pas.
+* **Module à direction automatique** : rien d'autre à câbler ni à configurer.
+* **Module sans direction automatique** (DE/RE ou « RSE » exposé, comme la carte Waveshare RS485 Board, SP485/SP3485) :
+  reliez cette broche à un GPIO libre et déclarez-le avec `flow_control_pin` (voir l'exemple). Le composant la
+  met à HIGH avant d'émettre, attend la fin de l'envoi, puis la remet à LOW pour écouter la réponse. Sans cette
+  option, **rien n'est émis**. Si DE et RE sont séparés, reliez-les ensemble.
+* **Niveaux logiques** : les GPIO de l'ESP32 sont en 3,3 V et **ne tolèrent pas 5 V**, même si la carte ESP32 est
+  alimentée en 5 V. Préférez un module en **3,3 V** (SP3485/MAX3485). Avec un module 5 V (SP485/MAX485), la sortie
+  RO (vers le RX de l'ESP32) sort à ~5 V : intercalez un pont diviseur (1 kΩ en série, puis 2 kΩ du GPIO vers GND).
+  Côté bus, rien à adapter : la liaison A/B est différentielle.
 * **Débranchez le Cloud Box M2.** Deux maîtres sur le même bus se télescopent. (Le composant sait
   profiter de ses réponses s'il reste branché, mais les collisions rendent les lectures aléatoires.)
-* Le côté RS485 du régulateur travaille en **5 V**. Un module alimenté en 5 V a une sortie TTL à 5 V : mettez
-  un adaptateur de niveau vers l'ESP32 (3,3 V), ou alimentez le module en 3,3 V comme ci-dessus si le sien le
-  permet. La lib Joba précise aussi que le 5 V du port RJ45 est **trop faible pour alimenter un ESP32 avec le Wi-Fi**.
+* Le 5 V du port RJ45 : des retours contradictoires existent sur sa capacité à alimenter un ESP32 avec le Wi-Fi
+  (la lib Joba le juge trop faible). Vérifiez avant de vous y fier.
 * Liaison fixée à **9600 bauds, 8N1** ; une autre valeur de `uart:` est refusée à la validation.
 
 ## Installation
@@ -155,9 +146,7 @@ Trame : `AA | type | adresse | cmd | item | longueur | données | checksum`, mot
 | Sortie charge (item 4) | `AA 01 00 01 04 03 01 00 1E 2E` | 0x01–0x0F |
 
 La réponse à un GET porte la commande `0x03` (`CMD_SET_NO_RESP`), avec en tête de données le mot d'offset.
-Le PDF du protocole (« MPPT Solar Controller communication protocol », février 2018) n'est pas redistribué ici ;
-il est publié dans le dépôt de skagmo : <https://github.com/skagmo/esmart_mppt/files/3401128/esmart3-serial-comm.pdf>.
-Le code de référence est `components/esmart3/esmart3_protocol.h`.
+Le PDF complet est dans `docs/esmart3-serial-comm.pdf`. Le code de référence est `components/esmart3/esmart3_protocol.h`.
 
 ## Tests
 
@@ -172,21 +161,21 @@ Deux suites, compilées avec `g++` sous ASan/UBSan, sans ESPHome ni matériel :
   checksum, écho, trame coupée).
 * `test_hub` : le composant complet (`esmart3.cpp`) contre de **fausses** en-têtes ESPHome (`tests/stubs`,
   écrites d'après l'API telle que je la connais, donc pas une preuve de compatibilité) : cycle normal,
-  écho ignoré, 6 timeouts → `NaN` puis reprise, repli sur 24 octets après 3 NACK, abandon d'une lecture
+  écho ignoré, broche DE/RE, 6 timeouts → `NaN` puis reprise, repli sur 24 octets après 3 NACK, abandon d'une lecture
   optionnelle refusée, interrupteur (écriture, ACK, NACK, timeout), tampon partiel.
 
 ## Dépannage
 
 | Symptôme | Piste |
 |---|---|
-| `No response to request for item 0` | câblage A/B (essayez de les inverser), GND, module sans direction automatique, Cloud Box encore branché |
+| `No response to request for item 0` | câblage A/B (essayez de les inverser), GND, module sans direction automatique et `flow_control_pin` absent, Cloud Box encore branché |
 | Valeurs de températures absurdes | sonde externe absente : la valeur renvoyée par le régulateur dépend du firmware |
 | Énergies énormes | `u32_word_order: low_first` |
 | Rien ne se passe | `logger: level: VERY_VERBOSE` : les trames TX/RX sont affichées en hexadécimal |
 
 ## Sources
 
-* [esmart3-serial-comm.pdf](https://github.com/skagmo/esmart_mppt/files/3401128/esmart3-serial-comm.pdf) — protocole constructeur (février 2018)
+* `docs/esmart3-serial-comm.pdf` — protocole constructeur (février 2018)
 * skagmo.com — [eSmart3 MPPT PV charger review](https://skagmo.com/page.php?p=documents%2F04_esmart3_review) (brochage, 9600 8N1, mesures)
 * [E-t0m/esmart_mppt](https://github.com/E-t0m/esmart_mppt) — trames `REQUEST_MSG0`, `LOAD_ON`, `LOAD_OFF`
 * [ssieb/esphome_components](https://github.com/ssieb/esphome_components) — composant `esmart3` d'origine

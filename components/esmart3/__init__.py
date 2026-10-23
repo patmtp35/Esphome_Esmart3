@@ -2,8 +2,9 @@
 
 import esphome.codegen as cg
 import esphome.config_validation as cv
+from esphome import pins
 from esphome.components import uart
-from esphome.const import CONF_ADDRESS, CONF_ID
+from esphome.const import CONF_ADDRESS, CONF_FLOW_CONTROL_PIN, CONF_ID
 
 DEPENDENCIES = ["uart"]
 # Les plateformes sensor / text_sensor / binary_sensor / switch partagent ce hub ; on les charge
@@ -30,6 +31,8 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_SLOW_UPDATE_EVERY, default=6): cv.int_range(
                 min=1, max=255
             ),
+            # Broche DE/RE (ou RSE) d'un module RS485 SANS direction automatique.
+            cv.Optional(CONF_FLOW_CONTROL_PIN): pins.gpio_output_pin_schema,
             # Ordre des deux mots d'un entier 32 bits. Le PDF se contredit ; voir le README.
             cv.Optional(CONF_U32_WORD_ORDER, default="high_first"): cv.one_of(
                 "high_first", "low_first", lower=True
@@ -55,6 +58,10 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
+
+    if CONF_FLOW_CONTROL_PIN in config:
+        pin = await cg.gpio_pin_expression(config[CONF_FLOW_CONTROL_PIN])
+        cg.add(var.set_flow_control_pin(pin))
 
     cg.add(var.set_address(config[CONF_ADDRESS]))
     cg.add(var.set_slow_every(config[CONF_SLOW_UPDATE_EVERY]))

@@ -18,6 +18,7 @@
 namespace sim {
 uint32_t now_ms = 0;
 std::string log;
+std::string events;
 void logf(const char *level, const char *fmt, ...) {
   char buf[256];
   va_list ap;
@@ -374,6 +375,34 @@ static void test_garbage_and_partial() {
   CHECK(r.pv.n == 1 && near(r.pv.state, 50.0f));
 }
 
+// Module RS485 sans direction automatique : DE/RE à 1 avant l'émission, à 0 dès le flush terminé.
+static void test_flow_control_pin() {
+  sim::now_ms = 40000;
+  sim::events.clear();
+  GPIOPin pin;
+  ESmart3Component hub;
+  hub.set_flow_control_pin(&pin);
+  hub.setup();
+  CHECK(sim::events == "S0");  // initialisée, au repos en réception
+  hub.update();
+  CHECK(wait_tx(hub, 1));
+  CHECK(sim::events == "S01WF0");  // émission encadrée par la broche, retour immédiat en réception
+  CHECK(hub.tx[0] == REQ_STATE);
+  feed(hub, state_response());
+  advance(hub, 200);
+  hub.update();
+  CHECK(wait_tx(hub, 2));
+  CHECK(sim::events == "S01WF01WF0");
+
+  // Sans broche : aucune écriture GPIO, comportement inchangé.
+  sim::events.clear();
+  ESmart3Component plain;
+  plain.setup();
+  plain.update();
+  CHECK(wait_tx(plain, 1));
+  CHECK(sim::events == "WF");
+}
+
 int main() {
   test_normal_cycle();
   test_timeouts_and_recovery();
@@ -381,6 +410,7 @@ int main() {
   test_optional_reads_disabled_after_refusals();
   test_load_switch();
   test_garbage_and_partial();
+  test_flow_control_pin();
   std::printf("[hub] %d vérifications, %d échec(s)\n", g_checks, g_failed);
   if (g_failed != 0)
     std::printf("--- journal du dernier scénario ---\n%s", sim::log.c_str());
