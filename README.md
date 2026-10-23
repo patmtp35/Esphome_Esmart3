@@ -7,8 +7,8 @@ en corrigeant ses défauts et en ajoutant ce que le protocole permet.
 Basé sur les travaux de skagmo, ssieb et mtkodat, recoupés avec E-t0m et joba-1 (voir *Sources*).
 Licence : Apache 2.0 (`LICENSE`).
 
-> **Ancienne version (juin 2024)** : conservée telle quelle dans [`archive/`](archive/) et repérable par le tag
-> `archive-2024-06`. Elle utilisait le composant de ssieb avec des fichiers YAML (ESP32 testé, D1 Mini non fonctionnel).
+> **Ancienne version (juin 2024)** : conservée telle quelle dans [`archive/`](archive/) ; l'état d'origine reste aussi
+> consultable dans l'historique (commit `d9ac21b`, 21 juin 2024). Elle utilisait le composant de ssieb avec des fichiers YAML (ESP32 testé, D1 Mini non fonctionnel).
 
 > **Statut de vérification** (à lire avant de flasher)
 >

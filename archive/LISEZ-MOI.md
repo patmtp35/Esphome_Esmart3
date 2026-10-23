@@ -1,7 +1,7 @@
 # Archive — version de juin 2024
 
 Contenu d'origine du dépôt, déplacé sans modification (`README.md`, `esphome/`, `img/`).
-Le même état est repérable par le tag `archive-2024-06`.
+Le même état reste consultable dans l'historique git : commit `d9ac21b` (21 juin 2024, « Update ota update »).
 
 Notes de revue ajoutées lors de l'archivage :
 
