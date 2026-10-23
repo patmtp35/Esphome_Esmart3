@@ -57,6 +57,25 @@ external_components:
 
 Voir `examples/esmart3.yaml` pour une configuration complète (capteurs, textes, binaires).
 
+### Test de compilation (add-on ESPHome Builder)
+
+`examples/esmart3-test.yaml` est la version de test : tous les réglages (noms, pins, intervalles, secrets) sont en
+`substitutions:` en tête de fichier, et le composant est chargé directement depuis GitHub :
+
+```yaml
+external_components:
+  - source: github://patmtp35/Esphome_Esmart3@main
+    components: [esmart3]
+    refresh: 0s   # re-télécharge à chaque compilation pendant la mise au point
+```
+
+Collez-la dans l'add-on, renseignez les secrets (`api_key`, `ota_password`, `wifi_ssid`, `wifi_password`), puis
+**Valider** et **Installer → Télécharger manuellement** pour compiler sans flasher.
+
+Résultat obtenu : compilation réussie sous **ESPHome 2026.10.0** (ESP-IDF 5.5.6, ESP32, module WROOM) ; firmware
+d'environ 720 Ko, soit 39 % de la partition, RAM utilisée 25 %. Aucun flash ni test sur matériel à ce jour.
+`examples/esmart3.yaml` reste la version à chemin local (`../components`), pour un dépôt cloné.
+
 ## Entités
 
 | Plateforme | Clé | Contenu |
