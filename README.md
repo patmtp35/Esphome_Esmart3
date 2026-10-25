@@ -28,6 +28,10 @@ Port RJ45 du régulateur (source : revue skagmo.com, confirmée par la lib E-t0m
 | 5, 6 | GND |
 | 7, 8 | +5 V en sortie (courant disponible inconnu — ne pas y brancher l'ESP32 sans le vérifier) |
 
+![Schéma de brochage eSmart3, XY-485 et ESP32](boitier3d/brochage_esmart3_xy485_esp32.png)
+
+*Montage de l'auteur : module XY-485 (direction automatique) et ESP32 WROOM. Source du schéma : [`boitier3d/brochage_esmart3_xy485_esp32.svg`](boitier3d/brochage_esmart3_xy485_esp32.svg).*
+
 Vers l'ESP32 : un module RS485 ↔ TTL, `TX → GPIO17` (DI), `RX → GPIO16` (RO), modifiables. À savoir :
 
 * **Module à direction automatique** : rien d'autre à câbler ni à configurer.

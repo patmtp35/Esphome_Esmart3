@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" font-family="Arial, Helvetica, sans-serif">
+<rect width="1200" height="760" fill="#ffffff"/>
+<text x="600" y="38" text-anchor="middle" font-size="26" font-weight="bold" fill="#111">Brochage eSmart3 ↔ XY-485 ↔ ESP32 (WROOM)</text>
+<text x="150" y="82" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Régulateur eSmart3</text>
+<text x="600" y="82" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Module XY-485</text>
+<text x="1040" y="82" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">ESP32 WROOM</text>
+<rect x="40" y="100" width="220" height="420" rx="10" fill="#f3f4f6" stroke="#555" stroke-width="2"/>
+<text x="150" y="124" text-anchor="middle" font-size="14" fill="#555">fiche RJ45 (câble coupé)</text>
+<rect x="56" y="136" width="188" height="30" rx="5" fill="#dbeafe" stroke="#666"/>
+<text x="70" y="156" font-size="16" font-weight="bold" fill="#111">1</text>
+<text x="96" y="156" font-size="16" fill="#1d4ed8" font-weight="bold">A (+)</text>
+<rect x="56" y="181" width="188" height="30" rx="5" fill="#dbeafe" stroke="#666"/>
+<text x="70" y="201" font-size="16" font-weight="bold" fill="#111">2</text>
+<text x="96" y="201" font-size="16" fill="#1d4ed8" font-weight="bold">B (−)</text>
+<rect x="56" y="226" width="188" height="30" rx="5" fill="#e5e7eb" stroke="#666"/>
+<text x="70" y="246" font-size="16" font-weight="bold" fill="#111">3</text>
+<rect x="56" y="271" width="188" height="30" rx="5" fill="#e5e7eb" stroke="#666"/>
+<text x="70" y="291" font-size="16" font-weight="bold" fill="#111">4</text>
+<rect x="56" y="316" width="188" height="30" rx="5" fill="#e5e7eb" stroke="#666"/>
+<text x="70" y="336" font-size="16" font-weight="bold" fill="#111">5</text>
+<text x="96" y="336" font-size="14" fill="#6b7280" font-weight="bold">GND (optionnel)</text>
+<rect x="56" y="361" width="188" height="30" rx="5" fill="#e5e7eb" stroke="#666"/>
+<text x="70" y="381" font-size="16" font-weight="bold" fill="#111">6</text>
+<text x="96" y="381" font-size="14" fill="#6b7280" font-weight="bold">GND (optionnel)</text>
+<rect x="56" y="406" width="188" height="30" rx="5" fill="#fee2e2" stroke="#666"/>
+<text x="70" y="426" font-size="16" font-weight="bold" fill="#111">7</text>
+<text x="96" y="426" font-size="14" fill="#b91c1c" font-weight="bold">+5 V — INTERDIT</text>
+<rect x="56" y="451" width="188" height="30" rx="5" fill="#fee2e2" stroke="#666"/>
+<text x="70" y="471" font-size="16" font-weight="bold" fill="#111">8</text>
+<text x="96" y="471" font-size="14" fill="#b91c1c" font-weight="bold">+5 V — INTERDIT</text>
+<line x1="222" y1="412" x2="238" y2="430" stroke="#b91c1c" stroke-width="3"/><line x1="238" y1="412" x2="222" y2="430" stroke="#b91c1c" stroke-width="3"/>
+<line x1="222" y1="457" x2="238" y2="475" stroke="#b91c1c" stroke-width="3"/><line x1="238" y1="457" x2="222" y2="475" stroke="#b91c1c" stroke-width="3"/>
+<text x="150" y="548" text-anchor="middle" font-size="13" fill="#b91c1c">7 et 8 : couper court et isoler séparément</text>
+<text x="150" y="566" text-anchor="middle" font-size="13" fill="#555">5 et 6 : à relier au GND du module</text>
+<text x="150" y="582" text-anchor="middle" font-size="13" fill="#555">seulement si les lectures sont instables</text>
+<text x="150" y="606" text-anchor="middle" font-size="13" fill="#555">Les couleurs des fils ne sont pas fiables :</text>
+<text x="150" y="622" text-anchor="middle" font-size="13" fill="#555">vérifier chaque broche à la continuité.</text>
+<rect x="440" y="100" width="320" height="420" rx="12" fill="#1e3a8a" stroke="#111" stroke-width="3"/>
+<text x="600" y="132" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">XY-485</text>
+<text x="600" y="152" text-anchor="middle" font-size="13" fill="#bfdbfe">direction automatique (pas de DE/RE)</text>
+<text x="470" y="186" font-size="13" fill="#bfdbfe">RS485 (bornier)</text>
+<text x="730" y="186" text-anchor="end" font-size="13" fill="#bfdbfe">TTL (JST)</text>
+<circle cx="440" cy="230" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="462" y="236" font-size="18" font-weight="bold" fill="#fff">A+</text>
+<circle cx="440" cy="300" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="462" y="306" font-size="18" font-weight="bold" fill="#fff">B−</text>
+<circle cx="440" cy="370" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="462" y="376" font-size="18" font-weight="bold" fill="#9ca3af">Terre</text>
+<text x="462" y="392" font-size="12" fill="#9ca3af">(non utilisée)</text>
+<circle cx="760" cy="210" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="738" y="216" text-anchor="end" font-size="18" font-weight="bold" fill="#fff">VCC</text>
+<circle cx="760" cy="270" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="738" y="276" text-anchor="end" font-size="18" font-weight="bold" fill="#fff">TXD</text>
+<circle cx="760" cy="330" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="738" y="336" text-anchor="end" font-size="18" font-weight="bold" fill="#fff">RXD</text>
+<circle cx="760" cy="390" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="738" y="396" text-anchor="end" font-size="18" font-weight="bold" fill="#fff">GND</text>
+<polyline points="244,150 350,150 350,230 431,230" fill="none" stroke="#1d4ed8" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="244,195 290,195 290,300 431,300" fill="none" stroke="#1d4ed8" stroke-width="5" stroke-linejoin="round"/>
+<text x="300" y="142" text-anchor="middle" font-size="13" fill="#1d4ed8" font-weight="bold">A → A+</text>
+<text x="360" y="292" text-anchor="middle" font-size="13" fill="#1d4ed8" font-weight="bold">B → B−</text>
+<rect x="940" y="100" width="200" height="420" rx="10" fill="#111827" stroke="#000" stroke-width="2"/>
+<text x="1040" y="132" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff">Freenove WROOM</text>
+<circle cx="940" cy="210" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="962" y="216" font-size="16" font-weight="bold" fill="#fff">3V3</text>
+<circle cx="940" cy="270" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="962" y="276" font-size="16" font-weight="bold" fill="#fff">GPIO17 (TX)</text>
+<circle cx="940" cy="330" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="962" y="336" font-size="16" font-weight="bold" fill="#fff">GPIO16 (RX)</text>
+<circle cx="940" cy="390" r="9" fill="#e5e7eb" stroke="#111" stroke-width="2"/>
+<text x="962" y="396" font-size="16" font-weight="bold" fill="#fff">GND</text>
+<polyline points="769,210 850.0,210 850.0,210 931,210" fill="none" stroke="#dc2626" stroke-width="6"  stroke-linejoin="round"/>
+<text x="850" y="202" text-anchor="middle" font-size="12" fill="#111">rouge</text>
+<polyline points="769,270 850.0,270 850.0,270 931,270" fill="none" stroke="#eab308" stroke-width="6"  stroke-linejoin="round"/>
+<text x="850" y="262" text-anchor="middle" font-size="12" fill="#111">jaune</text>
+<polyline points="769,330 850.0,330 850.0,330 931,330" fill="none" stroke="#cbd5e1" stroke-width="6"  stroke-linejoin="round"/>
+<text x="850" y="322" text-anchor="middle" font-size="12" fill="#111">blanc</text>
+<polyline points="769,390 850.0,390 850.0,390 931,390" fill="none" stroke="#111827" stroke-width="6"  stroke-linejoin="round"/>
+<text x="850" y="382" text-anchor="middle" font-size="12" fill="#111">noir</text>
+<text x="600" y="580" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">Ordre réel des broches sur le JST (de gauche à droite)</text>
+<rect x="480" y="596" width="56" height="44" rx="6" fill="#111827" stroke="#111" stroke-width="2"/>
+<text x="508" y="622" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">GND</text>
+<text x="508" y="660" text-anchor="middle" font-size="12" fill="#333">noir</text>
+<rect x="540" y="596" width="56" height="44" rx="6" fill="#f9fafb" stroke="#111" stroke-width="2"/>
+<text x="568" y="622" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">RXD</text>
+<text x="568" y="660" text-anchor="middle" font-size="12" fill="#333">blanc</text>
+<rect x="600" y="596" width="56" height="44" rx="6" fill="#eab308" stroke="#111" stroke-width="2"/>
+<text x="628" y="622" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">TXD</text>
+<text x="628" y="660" text-anchor="middle" font-size="12" fill="#333">jaune</text>
+<rect x="660" y="596" width="56" height="44" rx="6" fill="#dc2626" stroke="#111" stroke-width="2"/>
+<text x="688" y="622" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">VCC</text>
+<text x="688" y="660" text-anchor="middle" font-size="12" fill="#333">rouge</text>
+<text x="600" y="700" text-anchor="middle" font-size="13" fill="#555">Alimenter le module en 3,3 V uniquement. Si rien ne répond : inverser A et B, puis TXD et RXD.</text>
+<text x="600" y="720" text-anchor="middle" font-size="13" fill="#555">Pas de flow_control_pin avec ce module. UART : 9600 bauds, 8N1.</text>
+</svg>
