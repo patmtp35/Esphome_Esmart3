@@ -19,6 +19,17 @@ substitutions:
   wifi_ssid: !secret wifi_ssid
   wifi_password: !secret wifi_password
 
+  # --- IP fixe (à renseigner dans les secrets : ip_esmart3, ip_gateway, ip_dns) ---
+  ip_address: !secret ip_esmart3
+  gateway_ip: !secret ip_gateway
+  subnet: "255.255.255.0"
+  dns_ip: !secret ip_dns
+
+  # --- Interface web ---
+  web_port: "80"
+  # web_user: !secret web_user         # décommenter avec web_password et le bloc auth: plus bas
+  # web_password: !secret web_password
+
   # --- Composant ---
   component_source: "github://patmtp35/Esphome_Esmart3@main"
   component_refresh: "0s"           # re-télécharge à chaque compilation (mise au point)
@@ -56,6 +67,20 @@ ota:
 wifi:
   ssid: ${wifi_ssid}
   password: ${wifi_password}
+  manual_ip:
+    static_ip: ${ip_address}
+    gateway: ${gateway_ip}
+    subnet: ${subnet}
+    dns1: ${dns_ip}
+
+# Interface web version 3 ; local: true embarque les fichiers (fonctionne sans accès Internet).
+web_server:
+  port: ${web_port}
+  version: 3
+  local: true
+  # auth:
+  #   username: ${web_user}
+  #   password: ${web_password}
 
 external_components:
   - source: ${component_source}

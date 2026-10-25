@@ -73,8 +73,10 @@ external_components:
     refresh: 0s   # re-télécharge à chaque compilation pendant la mise au point
 ```
 
-Collez-la dans l'add-on, renseignez les secrets (`api_key`, `ota_password`, `wifi_ssid`, `wifi_password`), puis
+Collez-la dans l'add-on, renseignez les secrets (`api_key`, `ota_password`, `wifi_ssid`, `wifi_password`, et pour l'IP fixe `ip_esmart3`, `ip_gateway`, `ip_dns`), puis
 **Valider** et **Installer → Télécharger manuellement** pour compiler sans flasher.
+
+Le fichier active aussi l'interface web version 3 (`web_server`, fichiers embarqués avec `local: true`, accessible sur `http://<IP>`) et une IP fixe. Ces deux ajouts n'étaient pas dans la compilation de référence ci-dessous et n'ont pas été recompilés.
 
 Résultat obtenu : compilation réussie sous **ESPHome 2026.10.0** (ESP-IDF 5.5.6, ESP32, module WROOM) ; firmware
 d'environ 720 Ko, soit 39 % de la partition, RAM utilisée 25 %. Aucun flash ni test sur matériel à ce jour.
