@@ -11,7 +11,7 @@ en corrigeant ses défauts et en ajoutant ce que le protocole permet.
 > | Couche protocole (trames, checksums, décodage, lecteur) | **Testée** : 69 vérifications `g++` (ASan/UBSan) dont les exemples du PDF constructeur |
 > | Logique du composant (file de requêtes, timeouts, NACK, interrupteur) | **Simulée** : 93 vérifications contre de fausses en-têtes ESPHome (UART et horloge scriptées) |
 > | Conformité à l'API ESPHome réelle (Python + C++) | **Validée et compilée** sous ESPHome 2026.10.0 (ESP-IDF 5.5.6, ESP32) : compilation réussie, firmware généré |
-> | Matériel réel | **Jamais testé** (aucune trame échangée avec un vrai régulateur) |
+> | Matériel réel | **Testé sans régulateur** : firmware flashé sur ESP32 WROOM + XY-485, démarrage, Wi-Fi et boucle de requêtes OK (voir « Test sur matériel »). **Aucune réponse d'un vrai régulateur à ce jour** |
 >
 > Le composant a été écrit sans pouvoir installer ESPHome (PyPI bloqué dans l'environnement de rédaction) ; la
 > première compilation réelle a été faite sur l'add-on ESPHome de l'utilisateur. Reste à faire : brancher, lire les
@@ -79,8 +79,27 @@ Collez-la dans l'add-on, renseignez les secrets (`api_key`, `ota_password`, `wif
 Le fichier active aussi l'interface web version 3 (`web_server`, fichiers embarqués avec `local: true`, accessible sur `http://<IP>`) et une IP fixe. Ces deux ajouts n'étaient pas dans la compilation de référence ci-dessous et n'ont pas été recompilés.
 
 Résultat obtenu : compilation réussie sous **ESPHome 2026.10.0** (ESP-IDF 5.5.6, ESP32, module WROOM) ; firmware
-d'environ 720 Ko, soit 39 % de la partition, RAM utilisée 25 %. Aucun flash ni test sur matériel à ce jour.
+d'environ 720 Ko, soit 39 % de la partition, RAM utilisée 25 %.
 `examples/esmart3.yaml` reste la version à chemin local (`../components`), pour un dépôt cloné.
+
+### Test sur matériel (sans régulateur)
+
+Premier flash sur un ESP32 WROOM (Freenove) câblé au XY-485, sans eSmart3 branché (ESPHome 2026.10.0) :
+
+* le firmware démarre, se connecte au Wi-Fi et termine `setup()` sans erreur ;
+* le composant émet ses requêtes : état (item 0), énergies (item 2) et sortie charge (item 4) en rafale au premier
+  cycle, puis l'état seul toutes les 10 s, et la rafale de trois toutes les 60 s environ ;
+* sans réponse, chaque requête expire (« No response to request for item N »), puis l'alerte « No response from the
+  eSmart3 » apparaît après 3 échecs : c'est le comportement prévu ;
+* la LED TXD du module clignote à chaque requête : la voie d'émission (GPIO17 → module → bus) fonctionne ;
+* au repos, la sortie RXD du module mesure 3,29 V, compatible avec l'entrée GPIO16 de l'ESP32 (module alimenté en 3,3 V).
+
+**Reste à tester** : la voie de réception, la polarité A/B et le dialogue avec un vrai régulateur
+(`logger: level: VERY_VERBOSE` pour voir les trames).
+
+![Montage dans le boîtier imprimé en 3D](boitier3d/montage_boitier_esp32_xy485.jpg)
+
+*Montage dans le boîtier de `boitier3d/` : XY-485 en haut, ESP32 WROOM en bas, alimenté par USB-C.*
 
 ## Entités
 
