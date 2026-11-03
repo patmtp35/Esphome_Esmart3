@@ -223,3 +223,5 @@ Deux suites, compilées avec `g++` sous ASan/UBSan, sans ESPHome ni matériel :
 * [ssieb/esphome_components](https://github.com/ssieb/esphome_components) — composant `esmart3` d'origine
 * [joba-1/Joba_ESmart3](https://github.com/joba-1/Joba_ESmart3) — lib Arduino complète (GPL v2) : masques de défauts,
   `setLoad` (5117/5118 à l'offset 1 de l'item 4), `getLoad` (offset 0x0F), délai entre commandes de 12 ms
+
+the development could be assisted by an AI agents, closely coached and supervised by developers. Particular attention is given to the software architecture, code quality, maintainability, and test coverage, with the goal of ensuring a robust and well-engineered codebase.
